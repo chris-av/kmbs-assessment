@@ -1,5 +1,34 @@
 # Dots Game
 
+
+## Installation
+
+Make sure to install the dependencies
+
+```bash
+# cd into project directory
+npm install 
+```
+
+## External libraries
+
+I used Exrpess as the node/backend framework to build an http server. Based on the instuctions, the http server itself did not need many routes. It just needs a few routes. Express is a full dependency, whereas jest is a development dependency. You may run my tests by running the command `npm run dev`.
+
+## Notes on Approach
+
+I decided to make a class that would both describe and manage the state of the game itself. The client will make a request to the backend server, and the backend server itself uses an instantiated `Game` object to manage the game as it progresses. I have methods in the class so that the proper payload is rendered as the requests come in. 
+
+Here are a few conclusions I made, based on my reflections upon the logic of the game: 
+
+* for sake of time, I chose to write my project to successfully describe a 4x4 grid, though I am sure with a little tinkering, my code could be made more generalizable for an nxn grid.
+* It is necessary to track each and every node that has already been used, so as to prevent any intersection.
+* given the nature of the grid, I only need to track which nodes have been used. I do not need to rely on algebraic equations to determine if an intersection between segments have occurred. Therefore, I defined a simple, flat array of `past_moves` with no sense of direction among the nodes.
+* I used booleans where I could to keep track of whether the turn belongs to Player 1 or Player 2. I tried to have the variable names reflect the data type it describes.
+* I defined a `describePath` method that would calculate each and every node between a start and end point [inclusive]. I question whether this was a necessary strategy on my part, though it was the only way to ensure that segments do not cross each other, at least in my head.
+* I also questioned whether it was efficient to calculate, at any given moment in the game, all valid start paths (which should only be the available nodes between the start and end points). 
+* My testing likely fails to capture more obscure edge cases; also, I believe I could be more efficient in testing a class with shared state between tests
+
+
 ## Notes
 
 * I need to keep track of all the nodes that have been used
