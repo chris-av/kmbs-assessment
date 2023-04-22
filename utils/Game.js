@@ -131,8 +131,46 @@ class Game {
     const isValidMove = this.isValidMove(point);
     if (!isValidMove) { throw new Error("not a valid move"); }
 
-    this.past_moves.push(point);
+
+
+    this.current_nodes.push(point);
+
+    // we are just getting the first node
+    if (this.beginNode) {
+      this.beginNode = !this.beginNode;
+      return makePayload({
+        is_p1_turn: this.p1_turn,
+        isValidNode: true,
+        isBeginNode: true,
+      });
+    }
+
+
+    // if you are here, it is because it is the ending node
+    this.past_moves.push([...this.current_nodes]);
+    const tmp_nodes = [...this.current_nodes];
+    this.current_nodes = [];
+
+    const curr_turn = this.p1_turn;
     this.p1_turn = !this.p1_turn;
+    this.beginNode = !this.beginNode;
+
+    // TODO: recaluclate new available nodes
+
+    // end the game, if there are no valid nodes left
+    if (this.valid_start_nodes.length === 0) {
+      return gameOver({
+        is_p1_turn: this.p1_turn,
+        nodes: tmp_nodes,
+      });
+    }
+
+    return makePayload({
+      is_p1_turn: curr_turn,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: tmp_nodes,
+    });
 
   }
 
