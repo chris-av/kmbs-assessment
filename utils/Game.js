@@ -111,8 +111,8 @@ class Game {
 
   isValidMove(point) {
     return this.valid_start_nodes.filter(node => {
-      return point.X === node.X && point.y === node.Y;
-    }).length === 1;
+      return point.X === node.X && point.Y === node.Y;
+    }).length >= 1;
   }
 
   // use this every time we POST to /node-clicked
