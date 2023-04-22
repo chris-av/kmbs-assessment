@@ -37,8 +37,6 @@ app.get("/initialize", (_, response) => {
 app.post("/node-clicked", (request, response) => {
   const { statusCode, body, query, params } = request;
 
-  console.log({ statusCode, query, body, params });
-
   return response.status(200).send({
     msg: "VALID_START_NODE",
     body: {
