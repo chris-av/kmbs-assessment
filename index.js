@@ -21,7 +21,6 @@ const game = new Game();
 
 
 app.get("/initialize", (_, response) => {
-  // initialize state of the game
   game.reset();
   return response.status(200).send({
     msg: "INITIALIZE",
