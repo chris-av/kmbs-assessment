@@ -6,12 +6,12 @@ describe("test the game", () => {
 
   const game = new Game();
 
-  // make a few moves, then reset
-  game.processTurn({ X: 0, Y: 0 });
-  game.processTurn({ X: 0, Y: 1 });
-  game.processTurn({ X: 0, Y: 2 });
-
   test("reset the game successfully", () => {
+    // make a few moves, then reset
+    game.processTurn({ X: 0, Y: 0 });
+    game.processTurn({ X: 0, Y: 1 });
+    game.processTurn({ X: 0, Y: 2 });
+
     game.reset();
     const game_state = game.past_moves;
     expect(game_state.length).toEqual(0);
@@ -75,6 +75,10 @@ describe("test the game", () => {
     expect(game.isOctilinear({ X: 0, Y: 0 }, { X: 2, Y: 3 })).toBe(false);
     expect(game.isOctilinear({ X: 1, Y: 2 }, { X: 3, Y: 1 })).toBe(false);
 
+  });
+
+  test("any first move should be valid", () => {
+    expect(game.isValidMove({ X: 0, Y: 0 })).toEqual(true);
   });
 
 });
