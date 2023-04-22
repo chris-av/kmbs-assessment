@@ -34,17 +34,9 @@ app.get("/initialize", (_, response) => {
 
 
 app.post("/node-clicked", (request, response) => {
-  const { statusCode, body, query, params } = request;
-
-  return response.status(200).send({
-    msg: "VALID_START_NODE",
-    body: {
-      newLine: body,
-      heading: "Player 1",
-      message: "Select a second node to complete the line.",
-    },
-  });
-
+  const { body } = request;
+  const payload = game.processTurn(body);
+  return response.status(200).send(payload);
 });
 
 app.post("/error", (request, response) => {
