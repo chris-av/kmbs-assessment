@@ -60,8 +60,8 @@ class Game {
       const x = p1.X;
       const from_y = Math.min(p1.Y, p2.Y);
       const to_y = Math.max(p1.Y, p2.Y);
-      for (let i = from_y; i <= (to_y - from_y); i++) {
-        path.push({ X: x, Y: i });
+      for (let i = 0; i <= (to_y - from_y); i++) {
+        path.push({ X: x, Y: from_y + i });
       }
       return path;
     }
@@ -71,8 +71,8 @@ class Game {
       const y = p1.Y;
       const from_x = Math.min(p1.X, p2.X);
       const to_x = Math.max(p1.X, p2.X);
-      for (let i = from_x; i <= (to_x - from_x); i++) {
-        path.push({ X: i, Y: y });
+      for (let i = 0; i <= (to_x - from_x); i++) {
+        path.push({ X: from_x + i, Y: y });
       }
       return path;
     }
