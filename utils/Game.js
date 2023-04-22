@@ -14,6 +14,7 @@ class Game {
     this.p1_turn = true;
 
     // TODO: valid start paths should be the entire board
+    this.current_nodes = [];
     this.past_moves = [];
     this.valid_start_nodes = [];
 
@@ -29,7 +30,9 @@ class Game {
   reset() {
     this.beginNode = true;
     this.p1_turn = true;
+    this.current_nodes = [];
     this.past_moves = [];
+    this.valid_start_nodes = [];
     return this;
   }
 
