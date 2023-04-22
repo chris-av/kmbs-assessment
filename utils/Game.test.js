@@ -17,7 +17,6 @@ describe("test the game", () => {
     game.processTurn({ X: 0, Y: 0 });
     game.processTurn({ X: 0, Y: 1 });
     game.processTurn({ X: 0, Y: 2 });
-
     game.reset();
     const game_state = game.past_moves;
     expect(game_state.length).toEqual(0);
