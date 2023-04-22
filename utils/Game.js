@@ -1,4 +1,5 @@
 const validateLine = require('./validateLine');
+const createGrid = require('./create-grid');
 const { makePayload, gameOver } = require('./generatePayload');
 
 // game can be over when not all nodes are exhausted (when there are no other paths left)
@@ -16,14 +17,7 @@ class Game {
     // TODO: valid start paths should be the entire board
     this.current_nodes = [];
     this.past_moves = [];
-    this.valid_start_nodes = [];
-
-    // initialize grid, all nodes are fair game for Player 1
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 4; j++) {
-        this.valid_start_nodes.push({ x: i, y: j })
-      }
-    }
+    this.valid_start_nodes = createGrid(4, 4);
 
   }
 
@@ -131,7 +125,7 @@ class Game {
     const isValidMove = this.isValidMove(point);
     if (!isValidMove) { throw new Error("not a valid move"); }
 
-
+    // if on second move, check to see that new node is valid
 
     this.current_nodes.push(point);
 
