@@ -13,12 +13,9 @@ class Game {
   constructor() {
     this.beginNode = true;
     this.p1_turn = true;
-
-    // TODO: valid start paths should be the entire board
     this.current_nodes = [];
     this.past_moves = [];
     this.valid_start_nodes = createGrid(4, 4);
-
   }
 
   reset() {
