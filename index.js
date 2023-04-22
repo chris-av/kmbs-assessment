@@ -14,7 +14,7 @@ app.use(cors({
   optionsSuccessStatus: 200,
 }));
 
-// make sure we can parse JSON
+
 app.use(express.json());
 
 const game = new Game();
