@@ -86,5 +86,100 @@ describe("test the game", () => {
     expect(game.isValidMove({ X: 0, Y: 0 })).toEqual(true);
   });
 
+  test("check progress of game", () => {
+
+    // PLAYER 1
+    expect(game.processTurn({
+      X: 0, Y: 2,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      X: 0, Y: 3,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: [{ X: 0, Y: 2 }, { X: 0, Y: 3 }],
+    }));
+
+
+    // PLAYER 2
+    expect(game.processTurn({
+      X: 0, Y: 3,
+    })).toEqual(makePayload({
+      is_p1_turn: false,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      X: 1, Y: 2,
+    })).toEqual(makePayload({
+      is_p1_turn: false,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: [{ X: 0, Y: 3 }, { X: 1, Y: 2 }],
+    }));
+
+    // PLAYER 1
+    expect(game.processTurn({
+      X: 1, Y: 2,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      X: 1, Y: 0,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: [{ X: 1, Y: 2 }, { X: 1, Y: 0 }],
+    }));
+
+    // PLAYER 2
+    expect(game.processTurn({
+      X: 1, Y: 0,
+    })).toEqual(makePayload({
+      is_p1_turn: false,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      X: 0, Y: 1,
+    })).toEqual(makePayload({
+      is_p1_turn: false,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: [{ X: 1, Y: 0 }, { X: 0, Y: 1 }],
+    }));
+
+    // PLAYER 1
+    expect(game.processTurn({
+      X: 0, Y: 1,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      X: 0, Y: 0,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: [{ X: 0, Y: 1 }, { X: 0, Y: 0 }],
+    }));
+
+  });
+
 });
 
