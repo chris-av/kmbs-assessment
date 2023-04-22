@@ -1,3 +1,4 @@
+const { describe, test, expect, afterEach } = require('@jest/globals');
 const Game = require('./Game');
 
 
@@ -5,6 +6,10 @@ const Game = require('./Game');
 describe("test the game", () => {
 
   const game = new Game();
+
+  afterEach(() => {
+    game.reset();
+  });
 
   test("reset the game successfully", () => {
     // make a few moves, then reset
