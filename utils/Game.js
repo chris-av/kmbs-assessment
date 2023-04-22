@@ -9,7 +9,7 @@ const validateLine = require('./validateLine');
 
 class Game {
   constructor() {
-    this.round = 0;
+    this.beginNode = true;
     this.p1_turn = true;
 
     // TODO: valid start paths should be the entire board
@@ -26,7 +26,7 @@ class Game {
   }
 
   reset() {
-    this.round = 0;
+    this.beginNode = true;
     this.p1_turn = true;
     this.past_moves = [];
     return this;
@@ -117,8 +117,8 @@ class Game {
 
   // use this every time we POST to /node-clicked
   processTurn(point) {
-    // const isValidMove = this.isValidMove(point);
-    // if (!isValidMove) { throw new Error("not a valid move"); }
+    const isValidMove = this.isValidMove(point);
+    if (!isValidMove) { throw new Error("not a valid move"); }
 
     this.past_moves.push(point);
     this.p1_turn = !this.p1_turn;
