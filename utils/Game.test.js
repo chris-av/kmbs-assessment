@@ -55,6 +55,9 @@ describe("test the game", () => {
     expect(game.describePath({ X: 1, Y: 0 }, { X: 3, Y: 2 })).toEqual([
       { X: 1, Y: 0 }, { X: 2, Y: 1 }, { X: 3, Y: 2 },
     ]);
+    expect(game.describePath({ X: 2, Y: 3 }, { X: 1, Y: 2 })).toEqual([
+      { X: 1, Y: 2 }, { X: 2, Y: 3 },
+    ]);
   });
 
   test("calculate slope", () => {
