@@ -41,7 +41,10 @@ describe("test the game", () => {
 
   test("calculate a valid diagonal line, negative slope", () => {
     expect(game.describePath({ X: 0, Y: 2 }, { X: 2, Y: 0 })).toEqual([
-      { X: 0, Y: 2 }, { X: 1, Y: 1 }, { X: 2, Y: 0 }
+      { X: 0, Y: 2 }, { X: 1, Y: 1 }, { X: 2, Y: 0 },
+    ]);
+    expect(game.describePath({ X: 2, Y: 0 }, { X: 0, Y: 2 })).toEqual([
+      { X: 0, Y: 2 }, { X: 1, Y: 1 }, { X: 2, Y: 0 },
     ]);
   });
 
