@@ -1,4 +1,5 @@
 const validateLine = require('./validateLine');
+const { makePayload, gameOver } = require('./generatePayload');
 
 // game can be over when not all nodes are exhausted (when there are no other paths left)
 // You have to determine if a given path intersects an already registered node
