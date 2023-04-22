@@ -26,14 +26,7 @@ class Game {
     this.p1_turn = true;
     this.current_nodes = [];
     this.past_moves = [];
-    this.valid_start_nodes = [];
-
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 4; j++) {
-        this.valid_start_nodes.push({ x: i, y: j })
-      }
-    }
-
+    this.valid_start_nodes = createGrid(4, 4);
     return this;
   }
 
