@@ -1,4 +1,5 @@
 const { describe, test, expect, afterEach } = require('@jest/globals');
+const { makePayload, gameOver } = require('./generatePayload');
 const Game = require('./Game');
 
 
