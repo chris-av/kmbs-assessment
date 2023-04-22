@@ -83,7 +83,7 @@ describe("test the game", () => {
   });
 
   test("any first move should be valid", () => {
-    expect(game.isValidMove({ x: 0, y: 0 })).toEqual(true);
+    expect(game.isValidStartNode({ x: 0, y: 0 })).toEqual(true);
   });
 
   test("check progress of game", () => {
