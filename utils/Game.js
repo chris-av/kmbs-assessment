@@ -33,6 +33,13 @@ class Game {
     this.current_nodes = [];
     this.past_moves = [];
     this.valid_start_nodes = [];
+
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 4; j++) {
+        this.valid_start_nodes.push({ X: i, Y: j })
+      }
+    }
+
     return this;
   }
 
