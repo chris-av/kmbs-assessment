@@ -208,6 +208,17 @@ class Game {
       const forbidPath = path.filter(p => p.x !== endNode.x || p.y !== endNode.y);
       this.forbiddenNodes = this.forbiddenNodes.concat(forbidPath);
 
+
+      // recalculate valid start and end nodes
+      if (this.valid_start_nodes.length > 2) {
+        // start of the game
+        this.valid_start_nodes = [startNode, endNode];
+      } else {
+        // rest of the game
+        const indx = this.valid_start_nodes.findIndex(node => node.x === startNode.x && node.y === startNode.y)
+        this.valid_start_nodes[indx] = endNode;
+      }
+
       // end the game, if there are no valid nodes left
       if (this.valid_start_nodes.length === 0) {
         return gameOver({
