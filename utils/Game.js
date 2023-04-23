@@ -40,9 +40,6 @@ class Game {
       }
     }
 
-    // const f = this.forbiddenNodes;
-    // console.log({ adjs, f });
-
     return adjs.length > 0;
 
   }
@@ -128,7 +125,6 @@ class Game {
 
   isValidStartNode(point) {
     // check that the point in question is listed in valid_start_nodes
-    console.log({ point, valid_start_nodes: this.valid_start_nodes });
     return this.valid_start_nodes.filter(node => {
       return point.x === node.x && point.y === node.y;
     }).length >= 1;
