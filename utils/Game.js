@@ -275,7 +275,7 @@ class Game {
 
     } catch (err) {
       console.log(err);
-      return {};
+      return { err };
     }
   }
 
