@@ -18,7 +18,7 @@ describe("test the game", () => {
     game.processTurn({ x: 0, y: 1 });
     game.processTurn({ x: 0, y: 2 });
     game.reset();
-    const game_state = game.past_moves;
+    const game_state = game.forbiddenNodes;
     expect(game_state.length).toEqual(0);
     expect(game_state).toEqual([]);
   });
