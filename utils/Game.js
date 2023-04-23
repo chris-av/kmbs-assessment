@@ -33,6 +33,7 @@ class Game {
         const newY = point.y + j;
 
         const filteredForbidden = this.forbiddenNodes.filter(p => p.x === newX && p.y === newY);
+        if (newX > 3 || newY > 3) { continue; }
         if (filteredForbidden.length >= 1) { continue; }
 
         adjs.push({ x: point.x + i, y: point.y + j });
