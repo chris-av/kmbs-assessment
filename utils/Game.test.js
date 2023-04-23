@@ -75,6 +75,9 @@ describe("test the game", () => {
     game.forbiddenNodes.push({ x: 1, y: 0 }, { x: 1, y: 1 }, );
     expect(game.hasValidAdjacentNodes({ x: 0, y: 0 })).toEqual(true);
 
+    game.forbiddenNodes.push({ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 });
+    expect(game.hasValidAdjacentNodes({ x: 0, y: 2 })).toEqual(true);
+
   });
 
   test("calculate slope", () => {
