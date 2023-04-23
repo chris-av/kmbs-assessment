@@ -1,4 +1,3 @@
-const validateLine = require('./validateLine');
 const createGrid = require('./create-grid');
 const { makePayload, gameOver } = require('./generatePayload');
 
