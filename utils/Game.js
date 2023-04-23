@@ -211,8 +211,6 @@ class Game {
           this.valid_start_nodes.pop();
         }
 
-        console.log({ post_change: this.valid_start_nodes });
-
       }
 
       // end the game, if there are no valid nodes left
