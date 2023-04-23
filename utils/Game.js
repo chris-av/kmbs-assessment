@@ -144,7 +144,6 @@ class Game {
     const startNode = this.current_nodes[0];
     const endNode = point;
     const path = this.describePath(startNode, endNode);
-    const slope = this.calculateSlope(startNode, point);
 
     if (!this.isOctilinear(startNode, endNode)) { return false; }
 
