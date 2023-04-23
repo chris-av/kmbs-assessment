@@ -69,6 +69,12 @@ class Game {
     return false;
   }
 
+  /** 
+   * @description calculates slope given two points
+   * @param p1 - an object describing a point, with props x and y
+   * @param p2 - an object describing a point, with props x and y
+   * @returns {number}
+   */
   calculateSlope(p1, p2) {
     return (
       (p2.y - p1.y) / (p2.x - p1.x)
