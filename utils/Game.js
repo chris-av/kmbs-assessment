@@ -3,12 +3,14 @@ const { makePayload, gameOver } = require('./generatePayload');
 
 
 class Game {
-  constructor() {
+  constructor(sizeX, sizeY) {
+    this.sizeX = sizeX;
+    this.sizeY = sizeY;
     this.beginNode = true;
     this.isP1Turn = true;
     this.currentNodes = [];
     this.forbiddenNodes = [];
-    this.validStartNodes = createGrid(4, 4);
+    this.validStartNodes = createGrid(sizeX, sizeY);
     this.round = 0;
   }
 
@@ -21,7 +23,7 @@ class Game {
     this.isP1Turn = true;
     this.currentNodes = [];
     this.forbiddenNodes = [];
-    this.validStartNodes = createGrid(4, 4);
+    this.validStartNodes = createGrid(this.sizeX, this.sizeY);
     this.round = 0;
     return this;
   }
@@ -42,7 +44,7 @@ class Game {
         const newY = point.y + j;
 
         const filteredForbidden = this.forbiddenNodes.filter(p => p.x === newX && p.y === newY);
-        if (newX > 3 || newY > 3) { continue; }
+        if (newX > this.sizeX-1 || newY > this.sizeY-1) { continue; }
         if (filteredForbidden.length >= 1) { continue; }
 
         adjs.push({ x: point.x + i, y: point.y + j });

@@ -17,7 +17,7 @@ app.use(cors({
 
 app.use(express.json());
 
-const game = new Game();
+const game = new Game(4, 4);
 
 
 app.get("/initialize", (_, response) => {

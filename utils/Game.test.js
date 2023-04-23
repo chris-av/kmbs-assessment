@@ -6,7 +6,7 @@ const Game = require('./Game');
 
 describe("test the game", () => {
 
-  const game = new Game();
+  const game = new Game(4, 4);
 
   afterEach(() => {
     game.reset();
