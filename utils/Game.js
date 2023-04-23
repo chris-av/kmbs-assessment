@@ -16,6 +16,7 @@ class Game {
     this.current_nodes = [];
     this.forbiddenNodes = [];
     this.valid_start_nodes = createGrid(4, 4);
+    this.round = 0;
   }
 
   reset() {
@@ -24,6 +25,7 @@ class Game {
     this.current_nodes = [];
     this.forbiddenNodes = [];
     this.valid_start_nodes = createGrid(4, 4);
+    this.round = 0;
     return this;
   }
 
