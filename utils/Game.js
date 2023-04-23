@@ -5,10 +5,10 @@ const { makePayload, gameOver } = require('./generatePayload');
 class Game {
   constructor() {
     this.beginNode = true;
-    this.p1_turn = true;
-    this.current_nodes = [];
+    this.isP1Turn = true;
+    this.currentNodes = [];
     this.forbiddenNodes = [];
-    this.valid_start_nodes = createGrid(4, 4);
+    this.validStartNodes = createGrid(4, 4);
     this.round = 0;
   }
 
@@ -18,10 +18,10 @@ class Game {
    */
   reset() {
     this.beginNode = true;
-    this.p1_turn = true;
-    this.current_nodes = [];
+    this.isP1Turn = true;
+    this.currentNodes = [];
     this.forbiddenNodes = [];
-    this.valid_start_nodes = createGrid(4, 4);
+    this.validStartNodes = createGrid(4, 4);
     this.round = 0;
     return this;
   }
@@ -143,7 +143,7 @@ class Game {
    */
   isValidStartNode(point) {
     // check that the point in question is listed in valid_start_nodes
-    return this.valid_start_nodes.filter(node => {
+    return this.validStartNodes.filter(node => {
       return point.x === node.x && point.y === node.y;
     }).length >= 1;
   }
@@ -154,7 +154,7 @@ class Game {
    * @returns {boolean}
    */
   isValidEndNode(point) {
-    const startNode = this.current_nodes[0];
+    const startNode = this.currentNodes[0];
     const endNode = point;
     const path = this.describePath(startNode, endNode);
 
@@ -178,7 +178,7 @@ class Game {
     try {
       let isValidMove;
 
-      this.current_nodes.push(point);
+      this.currentNodes.push(point);
 
       if (this.beginNode) {
         isValidMove = this.isValidStartNode(point);
@@ -188,14 +188,14 @@ class Game {
 
       if (!isValidMove) {
         const payload = makePayload({
-          is_p1_turn: this.p1_turn,
+          is_p1_turn: this.isP1Turn,
           isValidNode: false,
           isBeginNode: this.beginNode,
           nodes: null,
         });
 
         // reset
-        this.current_nodes = [];
+        this.currentNodes = [];
         this.beginNode = true;
 
         return payload;
@@ -207,7 +207,7 @@ class Game {
       if (this.beginNode) {
         this.beginNode = !this.beginNode;
         return makePayload({
-          is_p1_turn: this.p1_turn,
+          is_p1_turn: this.isP1Turn,
           isValidNode: true,
           isBeginNode: true,
         });
@@ -215,51 +215,51 @@ class Game {
 
 
       // if you are here, it is because it is the ending node
-      const startNode = this.current_nodes[0];
-      const endNode = this.current_nodes[1];
+      const startNode = this.currentNodes[0];
+      const endNode = this.currentNodes[1];
       const path = this.describePath(startNode, endNode);
 
       // recalculate valid start and end nodes
       if (this.round === 0) {
-        this.valid_start_nodes = [startNode, endNode];
+        this.validStartNodes = [startNode, endNode];
       } else {
 
         const forbidPath = path.filter(p => p.x !== endNode.x || p.y !== endNode.y);
         this.forbiddenNodes = this.forbiddenNodes.concat(forbidPath);
 
         // replace the current start with the end node
-        const indx = this.valid_start_nodes.findIndex(node => node.x === startNode.x && node.y === startNode.y)
-        this.valid_start_nodes[indx] = endNode;
+        const indx = this.validStartNodes.findIndex(node => node.x === startNode.x && node.y === startNode.y)
+        this.validStartNodes[indx] = endNode;
 
-        if (this.hasValidAdjacentNodes(this.valid_start_nodes[0]) === false) {
-          this.valid_start_nodes.shift();
+        if (this.hasValidAdjacentNodes(this.validStartNodes[0]) === false) {
+          this.validStartNodes.shift();
         } 
 
-        if (this.valid_start_nodes.length >= 2 && this.hasValidAdjacentNodes(this.valid_start_nodes[1]) === false) {
-          this.valid_start_nodes.pop();
+        if (this.validStartNodes.length >= 2 && this.hasValidAdjacentNodes(this.validStartNodes[1]) === false) {
+          this.validStartNodes.pop();
         }
 
       }
 
       // end the game, if there are no valid nodes left
-      if (this.valid_start_nodes.length === 0) {
+      if (this.validStartNodes.length === 0) {
         return gameOver({
-          is_p1_turn: this.p1_turn,
-          nodes: this.current_nodes,
+          is_p1_turn: this.isP1Turn,
+          nodes: this.currentNodes,
         });
       }
 
       const payload = makePayload({
-        is_p1_turn: this.p1_turn,
+        is_p1_turn: this.isP1Turn,
         isValidNode: true,
         isBeginNode: false,
-        nodes: this.current_nodes,
+        nodes: this.currentNodes,
       });
 
 
       // reset everything
-      this.current_nodes = [];
-      this.p1_turn = !this.p1_turn;
+      this.currentNodes = [];
+      this.isP1Turn = !this.isP1Turn;
       this.beginNode = !this.beginNode;
       this.round += 1;
 
