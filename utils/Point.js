@@ -4,6 +4,10 @@ class Point {
     this.y = y;
   }
 
+  objectify() {
+    return { x: this.x, y: this.y }
+  }
+
   stringify() {
     return `${this.x}${this.y}`;
   }
