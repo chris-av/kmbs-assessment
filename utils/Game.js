@@ -151,12 +151,7 @@ class Game {
       if (check.length === 1) { return false; }
     }
 
-    // if two nodes are along x axis, y axis, or along a diagonal, should be fair game
-    if (startNode.x === endNode.x || startNode.y === endNode.y || Math.abs(slope) === 1) {
-      return true;
-    }
-
-    return false;
+    return true;
 
   }
 
