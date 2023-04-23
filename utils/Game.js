@@ -131,9 +131,8 @@ class Game {
   }
 
   isValidStartNode(point) {
-    // first move should allow any node
-    // second move, should be the start and end points
-    // every subsequent move should be the first end point and the last end point
+    // check that the point in question is listed in valid_start_nodes
+    console.log({ point, valid_start_nodes: this.valid_start_nodes });
     return this.valid_start_nodes.filter(node => {
       return point.x === node.x && point.y === node.y;
     }).length >= 1;
