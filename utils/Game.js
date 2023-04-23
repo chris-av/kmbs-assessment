@@ -27,6 +27,30 @@ class Game {
     return this;
   }
 
+  hasValidAdjacentNodes(point) {
+    let adjs = [];
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if (i === 0 && j === 0) { continue; }
+        if (i < 0 || j < 0) { continue; }
+
+        const newX = point.x + i;
+        const newY = point.y + j;
+
+        const filteredForbidden = this.forbiddenNodes.filter(p => p.x === newX && p.y === newY);
+        if (filteredForbidden.length >= 1) { continue; }
+
+        adjs.push({ x: point.x + i, y: point.y + j });
+      }
+    }
+
+    // const f = this.forbiddenNodes;
+    // console.log({ adjs, f });
+
+    return adjs.length > 0;
+
+  }
+
   // determines if two points are octilinear
   // i.e. line segment is oriented in phases of 45deg
   isOctilinear(p1, p2) {
