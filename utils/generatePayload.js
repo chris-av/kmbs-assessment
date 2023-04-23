@@ -41,10 +41,7 @@ const makePayload = ({ is_p1_turn, isValidNode, isBeginNode, nodes }) => {
         body: {
           heading: is_p1_turn ? "Player 1" : "Player 2",
           message: "Invalid move!",
-          newLine: {
-            start: nodes[0],
-            end: nodes[1],
-          },
+          newLine: null,
         }
       }
     }
