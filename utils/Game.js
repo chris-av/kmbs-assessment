@@ -121,6 +121,7 @@ class Game {
 
     for (let i = 0; i < path.length; i++) {
       const check = this.forbiddenNodes.filter(n => n.x === path[i].x && n.y === path[i].y);
+      const forbidden = this.forbiddenNodes;
       if (check.length === 1) { return false; }
     }
 
@@ -176,7 +177,7 @@ class Game {
     const startNode = this.current_nodes[0];
     const endNode = this.current_nodes[1];
     const path = this.describePath(startNode, endNode);
-    const forbidPath = path.filter(p => p.x !== endNode.x && p.y !== endNode.y);
+    const forbidPath = path.filter(p => p.x !== endNode.x || p.y !== endNode.y);
     this.forbiddenNodes = this.forbiddenNodes.concat(forbidPath);
     const tmp_nodes = [...this.current_nodes];
     this.current_nodes = [];
