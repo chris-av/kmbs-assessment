@@ -65,6 +65,18 @@ describe("test the game", () => {
     ]);
   });
 
+  test("determine whether point has valid adjacent slopes", () => {
+    // corner has no more valid adjacent nodes
+    game.forbiddenNodes.push({ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 });
+    expect(game.hasValidAdjacentNodes({ x: 0, y: 0 })).toEqual(false);
+    game.reset();
+
+    // corner only has one valid adjacent node left to use
+    game.forbiddenNodes.push({ x: 1, y: 0 }, { x: 1, y: 1 }, );
+    expect(game.hasValidAdjacentNodes({ x: 0, y: 0 })).toEqual(true);
+
+  });
+
   test("calculate slope", () => {
     expect(game.calculateSlope({ x: 0, y: 0 }, { x: 1, y: 1 })).toEqual(1);
     expect(game.calculateSlope({ x: 0, y: 0 }, { x: 1, y: 2 })).toEqual(2);
