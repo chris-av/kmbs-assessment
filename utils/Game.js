@@ -30,9 +30,11 @@ class Game {
   // determines if two points are octilinear
   // i.e. line segment is oriented in phases of 45deg
   isOctilinear(p1, p2) {
-    const deltaX = Math.abs(p1.x - p2.x);
-    const deltaY = Math.abs(p1.y - p2.y);
-    return deltaX === deltaY;
+    const slope = this.calculateSlope(p1, p2);
+    if (slope === 0 || Math.abs(slope) === 1 || !(isFinite(slope))) {
+      return true;
+    }
+    return false;
   }
 
   calculateSlope(p1, p2) {
@@ -119,9 +121,10 @@ class Game {
     const path = this.describePath(startNode, endNode);
     const slope = this.calculateSlope(startNode, point);
 
+    if (!this.isOctilinear(startNode, endNode)) { return false; }
+
     for (let i = 0; i < path.length; i++) {
       const check = this.forbiddenNodes.filter(n => n.x === path[i].x && n.y === path[i].y);
-      const forbidden = this.forbiddenNodes;
       if (check.length === 1) { return false; }
     }
 
@@ -135,74 +138,79 @@ class Game {
   }
 
   processTurn(point) {
-    let isValidMove;
+    try {
+      let isValidMove;
 
-    this.current_nodes.push(point);
+      this.current_nodes.push(point);
 
-    if (this.beginNode) {
-      isValidMove = this.isValidStartNode(point);
-    } else {
-      isValidMove = this.isValidEndNode(point);
-    }
+      if (this.beginNode) {
+        isValidMove = this.isValidStartNode(point);
+      } else {
+        isValidMove = this.isValidEndNode(point);
+      }
 
-    if (!isValidMove) {
+      if (!isValidMove) {
+        const payload = makePayload({
+          is_p1_turn: this.p1_turn,
+          isValidNode: false,
+          isBeginNode: this.beginNode,
+          nodes: null,
+        });
+
+        // reset
+        this.current_nodes = [];
+        this.beginNode = true;
+
+        return payload;
+
+      }
+
+
+      // we are just getting the first node
+      if (this.beginNode) {
+        this.beginNode = !this.beginNode;
+        return makePayload({
+          is_p1_turn: this.p1_turn,
+          isValidNode: true,
+          isBeginNode: true,
+        });
+      }
+
+
+      // if you are here, it is because it is the ending node
+      const startNode = this.current_nodes[0];
+      const endNode = this.current_nodes[1];
+      const path = this.describePath(startNode, endNode);
+      const forbidPath = path.filter(p => p.x !== endNode.x || p.y !== endNode.y);
+      this.forbiddenNodes = this.forbiddenNodes.concat(forbidPath);
+
+      // end the game, if there are no valid nodes left
+      if (this.valid_start_nodes.length === 0) {
+        return gameOver({
+          is_p1_turn: this.p1_turn,
+          nodes: this.current_nodes,
+        });
+      }
+
       const payload = makePayload({
         is_p1_turn: this.p1_turn,
-        isValidNode: false,
-        isBeginNode: this.beginNode,
-        nodes: null,
+        isValidNode: true,
+        isBeginNode: false,
+        nodes: this.current_nodes,
       });
 
-      // reset
+
+      // reset everything
       this.current_nodes = [];
-      this.beginNode = true;
+      this.p1_turn = !this.p1_turn;
+      this.beginNode = !this.beginNode;
 
       return payload;
 
+    } catch (err) {
+      console.log(err);
+      return {};
     }
-
-
-    // we are just getting the first node
-    if (this.beginNode) {
-      this.beginNode = !this.beginNode;
-      return makePayload({
-        is_p1_turn: this.p1_turn,
-        isValidNode: true,
-        isBeginNode: true,
-      });
-    }
-
-
-    // if you are here, it is because it is the ending node
-    const startNode = this.current_nodes[0];
-    const endNode = this.current_nodes[1];
-    const path = this.describePath(startNode, endNode);
-    const forbidPath = path.filter(p => p.x !== endNode.x || p.y !== endNode.y);
-    this.forbiddenNodes = this.forbiddenNodes.concat(forbidPath);
-    const tmp_nodes = [...this.current_nodes];
-    this.current_nodes = [];
-
-    const curr_turn = this.p1_turn;
-    this.p1_turn = !this.p1_turn;
-    this.beginNode = !this.beginNode;
-
-    // TODO: recaluclate new available nodes
-
-    // end the game, if there are no valid nodes left
-    if (this.valid_start_nodes.length === 0) {
-      return gameOver({
-        is_p1_turn: this.p1_turn,
-        nodes: tmp_nodes,
-      });
-    }
-
-    return makePayload({
-      is_p1_turn: curr_turn,
-      isValidNode: true,
-      isBeginNode: false,
-      nodes: tmp_nodes,
-    });
-
   }
 
 }
