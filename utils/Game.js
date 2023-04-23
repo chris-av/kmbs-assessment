@@ -104,20 +104,62 @@ class Game {
 
   }
 
-  isValidMove(point) {
+  isValidStartNode(point) {
+    // first move should allow any node
+    // second move, should be the start and end points
+    // every subsequent move should be the first end point and the last end point
     return this.valid_start_nodes.filter(node => {
       return point.x === node.x && point.y === node.y;
     }).length >= 1;
   }
 
-  // use this every time we POST to /node-clicked
-  processTurn(point) {
-    const isValidMove = this.isValidMove(point);
-    if (!isValidMove) { throw new Error("not a valid move"); }
+  isValidEndNode(point) {
+    const startNode = this.current_nodes[0];
+    const endNode = point;
+    const path = this.describePath(startNode, endNode);
+    const slope = this.calculateSlope(startNode, point);
 
-    // if on second move, check to see that new node is valid
+    for (let i = 0; i < path.length; i++) {
+      const check = this.forbiddenNodes.filter(n => n.x === path[i].x && n.y === path[i].y);
+      if (check.length === 1) { return false; }
+    }
+
+    // if two nodes are along x axis, y axis, or along a diagonal, should be fair game
+    if (startNode.x === endNode.x || startNode.y === endNode.y || Math.abs(slope) === 1) {
+      return true;
+    }
+
+    return false;
+
+  }
+
+  processTurn(point) {
+    let isValidMove;
 
     this.current_nodes.push(point);
+
+    if (this.beginNode) {
+      isValidMove = this.isValidStartNode(point);
+    } else {
+      isValidMove = this.isValidEndNode(point);
+    }
+
+    if (!isValidMove) {
+      const payload = makePayload({
+        is_p1_turn: this.p1_turn,
+        isValidNode: false,
+        isBeginNode: this.beginNode,
+        nodes: null,
+      });
+
+      // reset
+      this.current_nodes = [];
+      this.beginNode = true;
+
+      return payload;
+
+    }
+
 
     // we are just getting the first node
     if (this.beginNode) {
@@ -131,7 +173,11 @@ class Game {
 
 
     // if you are here, it is because it is the ending node
-    this.past_moves.push([...this.current_nodes]);
+    const startNode = this.current_nodes[0];
+    const endNode = this.current_nodes[1];
+    const path = this.describePath(startNode, endNode);
+    const forbidPath = path.filter(p => p.x !== endNode.x && p.y !== endNode.y);
+    this.forbiddenNodes = this.forbiddenNodes.concat(forbidPath);
     const tmp_nodes = [...this.current_nodes];
     this.current_nodes = [];
 
