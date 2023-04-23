@@ -14,7 +14,7 @@ class Game {
     this.beginNode = true;
     this.p1_turn = true;
     this.current_nodes = [];
-    this.past_moves = [];
+    this.forbiddenNodes = [];
     this.valid_start_nodes = createGrid(4, 4);
   }
 
@@ -22,7 +22,7 @@ class Game {
     this.beginNode = true;
     this.p1_turn = true;
     this.current_nodes = [];
-    this.past_moves = [];
+    this.forbiddenNodes = [];
     this.valid_start_nodes = createGrid(4, 4);
     return this;
   }
