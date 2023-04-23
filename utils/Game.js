@@ -191,17 +191,28 @@ class Game {
       const endNode = this.current_nodes[1];
       const path = this.describePath(startNode, endNode);
 
-
       // recalculate valid start and end nodes
-      if (this.valid_start_nodes.length > 2) {
-        // start of the game
+      if (this.round === 0) {
         this.valid_start_nodes = [startNode, endNode];
       } else {
-        // rest of the game
+
         const forbidPath = path.filter(p => p.x !== endNode.x || p.y !== endNode.y);
         this.forbiddenNodes = this.forbiddenNodes.concat(forbidPath);
+
+        // replace the current start with the end node
         const indx = this.valid_start_nodes.findIndex(node => node.x === startNode.x && node.y === startNode.y)
         this.valid_start_nodes[indx] = endNode;
+
+        if (this.hasValidAdjacentNodes(this.valid_start_nodes[0]) === false) {
+          this.valid_start_nodes.shift();
+        } 
+
+        if (this.valid_start_nodes.length >= 2 && this.hasValidAdjacentNodes(this.valid_start_nodes[1]) === false) {
+          this.valid_start_nodes.pop();
+        }
+
+        console.log({ post_change: this.valid_start_nodes });
+
       }
 
       // end the game, if there are no valid nodes left
@@ -224,6 +235,7 @@ class Game {
       this.current_nodes = [];
       this.p1_turn = !this.p1_turn;
       this.beginNode = !this.beginNode;
+      this.round += 1;
 
       return payload;
 
