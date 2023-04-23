@@ -1,12 +1,6 @@
 const createGrid = require('./create-grid');
 const { makePayload, gameOver } = require('./generatePayload');
 
-// game can be over when not all nodes are exhausted (when there are no other paths left)
-// You have to determine if a given path intersects an already registered node
-//     this means you have to keep track of all nodes in the game so far
-//     also must write a function that can describe all the points along a given path
-//     must also write a function that can determine whether a path intersects a node
-// do I have to keep track of paths are valid at any given moment?
 
 class Game {
   constructor() {
