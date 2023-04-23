@@ -20,6 +20,8 @@ I decided to make a class that would both describe and manage the state of the g
 
 Here are a few conclusions I made, based on my reflections upon the logic of the game: 
 
+* I should have extended the Object Oriented approach further to create a data structure for each individial node
+* might make more sense to use a LinkedList to easily detect the head and tail of the line
 * for sake of time, I chose to write my project to successfully describe a 4x4 grid, though I am sure with a little tinkering, my code could be made more generalizable for an nxn grid.
 * It is necessary to track each and every node that has already been used, so as to prevent any intersection.
 * given the nature of the grid, I only need to track which nodes have been used. I do not need to rely on algebraic equations to determine if an intersection between segments have occurred. Therefore, I defined a simple, flat array of `past_moves` with no sense of direction among the nodes.
