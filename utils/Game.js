@@ -12,6 +12,10 @@ class Game {
     this.round = 0;
   }
 
+  /** 
+   * @description resets the game to its initial parameters
+   * @returns this object instance itself
+   */
   reset() {
     this.beginNode = true;
     this.p1_turn = true;
@@ -22,6 +26,11 @@ class Game {
     return this;
   }
 
+  /** 
+   * @description determine whether a given point has available adjacent nodes given the game's current state
+   * @param point - an object describing a point, with props x and y
+   * @returns {boolean}
+   */
   hasValidAdjacentNodes(point) {
     let adjs = [];
     for (let i = -1; i <= 1; i++) {
@@ -44,8 +53,12 @@ class Game {
 
   }
 
-  // determines if two points are octilinear
-  // i.e. line segment is oriented in phases of 45deg
+  /** 
+   * @description determine all the points along a path
+   * @param p1 - an object describing a point, with props x and y
+   * @param p2 - an object describing a point, with props x and y
+   * @returns {boolean}
+   */
   isOctilinear(p1, p2) {
     const slope = this.calculateSlope(p1, p2);
     if (slope === 0 || Math.abs(slope) === 1 || !(isFinite(slope))) {
@@ -61,7 +74,7 @@ class Game {
   }
 
   /** 
-   * @description determine all the points along a path
+   * @description create an array containing all the points along a path, p1 to p2
    * @param p1 - an object describing a point, with props X and Y
    * @param p2 - an object describing a point, with props X and Y
    * @return an array of points that are along the path of p1, p2
@@ -123,6 +136,11 @@ class Game {
 
   }
 
+  /** 
+   * @description determines whether a given point is a valid start for a line segment given the game's current state
+   * @param point - an object containing point.x and point.y
+   * @returns {boolean}
+   */
   isValidStartNode(point) {
     // check that the point in question is listed in valid_start_nodes
     return this.valid_start_nodes.filter(node => {
@@ -130,6 +148,11 @@ class Game {
     }).length >= 1;
   }
 
+  /** 
+   * @description determines whether a given point is a valid end for a line segment given the game's current state
+   * @param point - an object containing point.x and point.y
+   * @returns {boolean}
+   */
   isValidEndNode(point) {
     const startNode = this.current_nodes[0];
     const endNode = point;
@@ -146,6 +169,11 @@ class Game {
 
   }
 
+  /** 
+   * @description runs a process that implements game logic
+   * @param point - an object containing point.x and point.y
+   * @returns a payload expected by the client
+   */
   processTurn(point) {
     try {
       let isValidMove;
