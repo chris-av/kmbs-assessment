@@ -71,7 +71,7 @@ describe("test if our reducers produce the appropriate payload", () => {
           end: { X: 1, Y: 1 },
         },
         heading: "Game Over",
-        message: "Player 1 Wins!",
+        message: "Player 1 wins!",
       },
     });
   });
