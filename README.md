@@ -7,7 +7,8 @@ Make sure to install the dependencies
 
 ```bash
 # cd into project directory
-npm install 
+npm install     # install dependencies
+npm run dev     # run a server that will implement game logic
 ```
 
 
