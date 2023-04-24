@@ -45,7 +45,7 @@ class Game {
         const newY = _point.y + j;
 
         if (newX < 0 || newY < 0) { continue; }
-        if (newX > this.sizeX-1 || newY > this.sizeY-1) { continue; }
+        if (newX > this.sizeX - 1 || newY > this.sizeY - 1) { continue; }
 
         const newPoint = new Point(newX, newY);
 
@@ -255,7 +255,7 @@ class Game {
 
         if (this.hasValidAdjacentNodes(this.validStartNodes[0]) === false) {
           this.validStartNodes.shift();
-        } 
+        }
 
         if (this.validStartNodes.length >= 2 && this.hasValidAdjacentNodes(this.validStartNodes[1]) === false) {
           this.validStartNodes.pop();
