@@ -10,6 +10,15 @@ Make sure to install the dependencies
 npm install 
 ```
 
+
+Then, for the client side, open the html file in your browser, or alternatively `cd` into the client directory and run :
+
+```node
+node server.js
+```
+
+The above command will run a simple http server to server the `html` files and the accompanying `css`, and `js` files.
+
 ## External libraries
 
 I used Exrpess as the node/backend framework to build an http server. Based on the instuctions, the http server itself did not need many routes. It just needs a few routes. Express is a full dependency, whereas jest is a development dependency. You may run my tests by running the command `npm run dev`.
