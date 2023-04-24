@@ -22,9 +22,17 @@ class LinkedList {
    * @return {LinkedList} - returns linked list so that you can chain your methods
    */
   add(point) {
-    if (this.point == undefined) { this.point = new Point(point); return this; }
+    if (this.point == undefined) {
+      this.point = new Point(point);
+      return this;
+    }
+
     let currNode = this.point;
     const _point = new Point(point.x, point.y);
+
+    if (currNode !== undefined && currNode.stringify() === _point.stringify()) {
+      throw "cannot add the same node";
+    }
 
     while (currNode.next) {
       if (currNode !== undefined && currNode.stringify() === _point.stringify()) {
