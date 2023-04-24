@@ -1,4 +1,5 @@
 const createGrid = require('./create-grid');
+const Point = require('./Point');
 const { makePayload, gameOver } = require('./generatePayload');
 
 
@@ -34,20 +35,25 @@ class Game {
    * @returns {boolean}
    */
   hasValidAdjacentNodes(point) {
+    const _point = Point.objectifyFromString(point);
     let adjs = [];
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (i === 0 && j === 0) { continue; }
-        if (i < 0 || j < 0) { continue; }
 
-        const newX = point.x + i;
-        const newY = point.y + j;
+        const newX = _point.x + i;
+        const newY = _point.y + j;
 
-        const filteredForbidden = this.forbiddenNodes.filter(p => p.x === newX && p.y === newY);
+        if (newX < 0 || newY < 0) { continue; }
         if (newX > this.sizeX-1 || newY > this.sizeY-1) { continue; }
-        if (filteredForbidden.length >= 1) { continue; }
 
-        adjs.push({ x: point.x + i, y: point.y + j });
+        const newPoint = new Point(newX, newY);
+
+        if (this.forbiddenNodes.includes(newPoint.stringify())) {
+          continue;
+        };
+
+        adjs.push(newPoint.stringify());
       }
     }
 
@@ -76,8 +82,10 @@ class Game {
    * @returns {number}
    */
   calculateSlope(p1, p2) {
+    const _p1 = Point.objectifyFromString(p1);
+    const _p2 = Point.objectifyFromString(p2);
     return (
-      (p2.y - p1.y) / (p2.x - p1.x)
+      (_p2.y - _p1.y) / (_p2.x - _p1.x)
     );
   }
 
@@ -88,26 +96,30 @@ class Game {
    * @return an array of points that are along the path of p1, p2
    */
   describePath(p1, p2) {
+    const _p1 = Point.objectifyFromString(p1);
+    const _p2 = Point.objectifyFromString(p2);
     let path = [];
 
     // path is horizontal, get all the Y's in between
-    if (p1.x === p2.x) {
-      const x = p1.x;
-      const from_y = Math.min(p1.y, p2.y);
-      const to_y = Math.max(p1.y, p2.y);
+    if (_p1.x === _p2.x) {
+      const x = _p1.x;
+      const from_y = Math.min(_p1.y, _p2.y);
+      const to_y = Math.max(_p1.y, _p2.y);
       for (let i = 0; i <= (to_y - from_y); i++) {
-        path.push({ x: x, y: from_y + i });
+        const point = new Point(x, from_y + i);
+        path.push(point.stringify());
       }
       return path;
     }
 
     // path is vertical, get all the X's in between
-    if (p1.y === p2.y) {
-      const y = p1.y;
-      const from_x = Math.min(p1.x, p2.x);
-      const to_x = Math.max(p1.x, p2.x);
+    if (_p1.y === _p2.y) {
+      const y = _p1.y;
+      const from_x = Math.min(_p1.x, _p2.x);
+      const to_x = Math.max(_p1.x, _p2.x);
       for (let i = 0; i <= (to_x - from_x); i++) {
-        path.push({ x: from_x + i, y: y });
+        const point = new Point(from_x + i, y);
+        path.push(point.stringify());
       }
       return path;
     }
@@ -115,12 +127,13 @@ class Game {
     const slope = this.calculateSlope(p1, p2);
 
     if (slope === -1) {
-      const from_x = Math.min(p1.x, p2.x);
-      const to_x = Math.max(p1.x, p2.x);
-      const from_y = Math.max(p1.y, p2.y);
+      const from_x = Math.min(_p1.x, _p2.x);
+      const to_x = Math.max(_p1.x, _p2.x);
+      const from_y = Math.max(_p1.y, _p2.y);
 
       for (let i = 0; i <= (to_x - from_x); i++) {
-        path.push({ x: (from_x + i), y: (from_y - i) });
+        const point = new Point(from_x + i, from_y - i);
+        path.push(point.stringify());
       }
 
       return path;
@@ -128,12 +141,13 @@ class Game {
     }
 
     if (slope === 1) {
-      const from_x = Math.min(p1.x, p2.x);
-      const to_x = Math.max(p1.x, p2.x);
-      const from_y = Math.min(p1.y, p2.y);
+      const from_x = Math.min(_p1.x, _p2.x);
+      const to_x = Math.max(_p1.x, _p2.x);
+      const from_y = Math.min(_p1.y, _p2.y);
 
       for (let i = 0; i <= (to_x - from_x); i++) {
-        path.push({ x: from_x + i, y: (from_y + i) });
+        const point = new Point(from_x + i, from_y + i);
+        path.push(point.stringify());
       }
 
       return path;
@@ -151,9 +165,7 @@ class Game {
    */
   isValidStartNode(point) {
     // check that the point in question is listed in valid_start_nodes
-    return this.validStartNodes.filter(node => {
-      return point.x === node.x && point.y === node.y;
-    }).length >= 1;
+    return this.validStartNodes.includes(point);
   }
 
   /** 
@@ -169,8 +181,9 @@ class Game {
     if (!this.isOctilinear(startNode, endNode)) { return false; }
 
     for (let i = 0; i < path.length; i++) {
-      const check = this.forbiddenNodes.filter(n => n.x === path[i].x && n.y === path[i].y);
-      if (check.length === 1) { return false; }
+      if (this.forbiddenNodes.includes(path[i])) {
+        return false;
+      }
     }
 
     return true;
@@ -184,14 +197,16 @@ class Game {
    */
   processTurn(point) {
     try {
+      const _point = new Point(point.x, point.y);
       let isValidMove;
 
-      this.currentNodes.push(point);
+      this.currentNodes.push(_point.stringify());
+      console.log({ currentNodes: this.currentNodes });
 
       if (this.beginNode) {
-        isValidMove = this.isValidStartNode(point);
+        isValidMove = this.isValidStartNode(_point.stringify());
       } else {
-        isValidMove = this.isValidEndNode(point);
+        isValidMove = this.isValidEndNode(_point.stringify());
       }
 
       if (!isValidMove) {
@@ -232,11 +247,11 @@ class Game {
         this.validStartNodes = [startNode, endNode];
       } else {
 
-        const forbidPath = path.filter(p => p.x !== endNode.x || p.y !== endNode.y);
+        const forbidPath = path.filter(p => p !== endNode);
         this.forbiddenNodes = this.forbiddenNodes.concat(forbidPath);
 
         // replace the current start with the end node
-        const indx = this.validStartNodes.findIndex(node => node.x === startNode.x && node.y === startNode.y)
+        const indx = this.validStartNodes.findIndex(node => node === startNode);
         this.validStartNodes[indx] = endNode;
 
         if (this.hasValidAdjacentNodes(this.validStartNodes[0]) === false) {
@@ -253,7 +268,7 @@ class Game {
       if (this.validStartNodes.length === 0) {
         return gameOver({
           is_p1_turn: this.isP1Turn,
-          nodes: this.currentNodes,
+          nodes: this.currentNodes.map(node => Point.objectifyFromString(node)),
         });
       }
 
@@ -261,7 +276,7 @@ class Game {
         is_p1_turn: this.isP1Turn,
         isValidNode: true,
         isBeginNode: false,
-        nodes: this.currentNodes,
+        nodes: this.currentNodes.map(node => Point.objectifyFromString(node)),
       });
 
 
