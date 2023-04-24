@@ -31,7 +31,7 @@ class Game {
 
   /** 
    * @description determine whether a given point has available adjacent nodes given the game's current state
-   * @param point - an object describing a point, with props x and y
+   * @param point - an string describing a Point in format "x,y"
    * @returns {boolean}
    */
   hasValidAdjacentNodes(point) {
@@ -63,8 +63,8 @@ class Game {
 
   /** 
    * @description determine all the points along a path
-   * @param p1 - an object describing a point, with props x and y
-   * @param p2 - an object describing a point, with props x and y
+   * @param p1 - a string describing a point in format "x,y"
+   * @param p2 - a string describing a point in format "x,y"
    * @returns {boolean}
    */
   isOctilinear(p1, p2) {
@@ -77,8 +77,8 @@ class Game {
 
   /** 
    * @description calculates slope given two points
-   * @param p1 - an object describing a point, with props x and y
-   * @param p2 - an object describing a point, with props x and y
+   * @param p1 - a string describing a point in format "x,y"
+   * @param p2 - a string describing a point in format "x,y"
    * @returns {number}
    */
   calculateSlope(p1, p2) {
@@ -160,7 +160,7 @@ class Game {
 
   /** 
    * @description determines whether a given point is a valid start for a line segment given the game's current state
-   * @param point - an object containing point.x and point.y
+   * @param point - a string describing a point in format "x,y"
    * @returns {boolean}
    */
   isValidStartNode(point) {
@@ -170,7 +170,7 @@ class Game {
 
   /** 
    * @description determines whether a given point is a valid end for a line segment given the game's current state
-   * @param point - an object containing point.x and point.y
+   * @param point - a string describing a point in format "x,y"
    * @returns {boolean}
    */
   isValidEndNode(point) {
@@ -192,7 +192,7 @@ class Game {
 
   /** 
    * @description runs a process that implements game logic
-   * @param point - an object containing point.x and point.y
+   * @param point - an object containing point.x and point.y, payload direct from the client
    * @returns a payload expected by the client
    */
   processTurn(point) {
