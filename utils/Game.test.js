@@ -111,7 +111,101 @@ describe("test the game", () => {
     game.reset();
   });
 
-  test("check progress of game", () => {
+  test("game should end when all nodes are enclosed by already used nodes", () => {
+
+    // PLAYER 1
+    expect(game.processTurn({
+      x: 0, y: 2,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      x: 1, y: 3,
+    })).toEqual(makePayload({
+      is_p1_turn: false,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: [{ x: 0, y: 2 }, { x: 1, y: 3 }],
+    }));
+
+
+    // PLAYER 2
+    expect(game.processTurn({
+      x: 1, y: 3,
+    })).toEqual(makePayload({
+      is_p1_turn: false,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      x: 1, y: 0,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: [{ x: 1, y: 3 }, { x: 1, y: 0 }],
+    }));
+
+    // PLAYER 1
+    expect(game.processTurn({
+      x: 1, y: 0,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      x: 0, y: 1,
+    })).toEqual(makePayload({
+      is_p1_turn: false,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: [{ x: 1, y: 0 }, { x: 0, y: 1 }],
+    }));
+
+    // PLAYER 2
+    expect(game.processTurn({
+      x: 0, y: 1,
+    })).toEqual(makePayload({
+      is_p1_turn: false,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      x: 0, y: 0,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: false,
+      nodes: [{ x: 0, y: 1 }, { x: 0, y: 0 }],
+    }));
+
+    // PLAYER 1
+    expect(game.processTurn({
+      x: 0, y: 2,
+    })).toEqual(makePayload({
+      is_p1_turn: true,
+      isValidNode: true,
+      isBeginNode: true,
+    }));
+
+    expect(game.processTurn({
+      x: 0, y: 3,
+    })).toEqual(gameOver({
+      is_p1_turn: false,
+      nodes: [{ x: 0, y: 2 }, { x: 0, y: 3 }],
+    }));
+
+
+  });
+
+  test("game should end when all start nodes are enclosed by segments", () => {
 
     // PLAYER 1
     expect(game.processTurn({
@@ -197,10 +291,8 @@ describe("test the game", () => {
 
     expect(game.processTurn({
       x: 0, y: 0,
-    })).toEqual(makePayload({
-      is_p1_turn: true,
-      isValidNode: true,
-      isBeginNode: false,
+    })).toEqual(gameOver({
+      is_p1_turn: false,
       nodes: [{ x: 0, y: 1 }, { x: 0, y: 0 }],
     }));
 
