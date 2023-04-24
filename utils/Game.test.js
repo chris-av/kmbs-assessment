@@ -3,11 +3,8 @@ const { makePayload, gameOver } = require('./generatePayload');
 const Game = require('./Game');
 
 
-
-describe("test the game", () => {
-
+describe("test each individual method", () => {
   const game = new Game(4, 4);
-
   afterEach(() => {
     game.reset();
   });
@@ -22,6 +19,7 @@ describe("test the game", () => {
     expect(game_state.length).toEqual(0);
     expect(game_state).toEqual([]);
   });
+
 
   test("calculate a valid horizontal line", () => {
     expect(game.describePath({ x: 0, y: 4 }, { x: 2, y: 4 })).toEqual([
@@ -99,6 +97,18 @@ describe("test the game", () => {
 
   test("any first move should be valid", () => {
     expect(game.isValidStartNode({ x: 0, y: 0 })).toEqual(true);
+  });
+
+
+});
+
+
+describe("test the game", () => {
+
+  const game = new Game(4, 4);
+
+  afterEach(() => {
+    game.reset();
   });
 
   test("check progress of game", () => {
