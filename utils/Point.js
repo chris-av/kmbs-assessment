@@ -12,6 +12,11 @@ class Point {
     return `${this.x}${this.y}`;
   }
 
+  static objectifyFromString(str) {
+    const spltstr = str.split('');
+    return { x: parseInt(spltstr[0]), y: parseInt(spltstr[1]) }
+  }
+
 }
 
 
