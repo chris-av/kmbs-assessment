@@ -9,9 +9,9 @@ describe("test LinkedList", () => {
   });
   test("test that we can grab the tail at any point in time", () => {
     const list = new LinkedList({ x: 0, y: 0 }).add({ x: 0, y: 1 });
-    expect(list.tail.stringify()).toEqual("01")
+    expect(list.tail.stringify()).toEqual("0,1")
     list.add({ x: 1, y: 1 }).add({ x: 2, y: 1 }).add({ x: 2, y: 2 });
-    expect(list.tail.stringify()).toEqual("22");
+    expect(list.tail.stringify()).toEqual("2,2");
   });
   test("cannot add the same node twice", () => {
     const list = new LinkedList({ x: 0, y: 0 }).add({ x: 0, y: 1 })
