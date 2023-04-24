@@ -46,6 +46,7 @@ class Game {
         const newX = _point.x + i;
         const newY = _point.y + j;
 
+        // check that new point is within bounds of the grid
         if (newX < 0 || newY < 0) { continue; }
         if (newX > this.sizeX - 1 || newY > this.sizeY - 1) { continue; }
 
