@@ -13,4 +13,9 @@ describe("test methods of Point", () => {
     expect(Point.objectifyFromString("2,3")).toEqual({ x: 2, y: 3 });
     expect(Point.objectifyFromString("1,1")).toEqual({ x: 1, y: 1 });
   });
+  test("test double digit numbers", () => {
+    expect(Point.objectifyFromString("13,2")).toEqual({ x: 13, y: 2 });
+    const point = new Point(41, 12);
+    expect(point.stringify()).toEqual("41,12");
+  });
 });
