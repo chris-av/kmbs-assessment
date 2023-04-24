@@ -263,6 +263,8 @@ class Game {
 
       }
 
+      this.isP1Turn = !this.isP1Turn;
+
       // end the game, if there are no valid nodes left
       if (this.validStartNodes.length === 0) {
         return gameOver({
@@ -281,7 +283,6 @@ class Game {
 
       // reset everything
       this.currentNodes = [];
-      this.isP1Turn = !this.isP1Turn;
       this.beginNode = !this.beginNode;
       this.round += 1;
 
