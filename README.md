@@ -27,6 +27,8 @@ I used Exrpess as the node/backend framework to build an http server. Based on t
 
 I used Jest as my testing library. All my tests are javascript files whose name is appended with `.test.js`. You can run all tests globally using `npm run test` or you can run a sepecfic test by passing a file name as an argument to `npm run test`, for instance `npm run test generatePayload`.
 
+I used `nodemon` to restart my server on any detected change in the file. I this this for my personal convenience during my development.
+
 ## Notes on Approach
 
 I decided to make a class that would both describe and manage the state of the game itself. The client will make a request to the backend server, and the backend server itself uses an instantiated `Game` object to manage the game as it progresses. I have methods in the class so that the proper payload is rendered as the requests come in. 
