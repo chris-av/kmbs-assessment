@@ -201,7 +201,6 @@ class Game {
       let isValidMove;
 
       this.currentNodes.push(_point.stringify());
-      console.log({ currentNodes: this.currentNodes });
 
       if (this.beginNode) {
         isValidMove = this.isValidStartNode(_point.stringify());
