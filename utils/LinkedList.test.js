@@ -18,5 +18,9 @@ describe("test LinkedList", () => {
     expect(() => {
       list.add({ x: 0, y: 0 });
     }).toThrow();
+    expect(() => {
+      const list = new LinkedList({ x: 0, y: 0 });
+      list.add({ x: 0, y: 0 });
+    }).toThrow();
   });
 });
