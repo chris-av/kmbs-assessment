@@ -25,6 +25,8 @@ The above command will run a simple http server to server the `html` files and t
 
 I used Exrpess as the node/backend framework to build an http server. Based on the instuctions, the http server itself did not need many routes. It just needs a few routes. Express is a full dependency, whereas jest is a development dependency. 
 
+I used Jest as my testing library. All my tests are javascript files whose name is appended with `.test.js`. You can run all tests globally using `npm run test` or you can run a sepecfic test by passing a file name as an argument to `npm run test`, for instance `npm run test generatePayload`.
+
 ## Notes on Approach
 
 I decided to make a class that would both describe and manage the state of the game itself. The client will make a request to the backend server, and the backend server itself uses an instantiated `Game` object to manage the game as it progresses. I have methods in the class so that the proper payload is rendered as the requests come in. 
