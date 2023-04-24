@@ -219,7 +219,7 @@ describe("test the game", () => {
     expect(game.processTurn({
       x: 0, y: 3,
     })).toEqual(makePayload({
-      is_p1_turn: true,
+      is_p1_turn: false,
       isValidNode: true,
       isBeginNode: false,
       nodes: [{ x: 0, y: 2 }, { x: 0, y: 3 }],
@@ -238,7 +238,7 @@ describe("test the game", () => {
     expect(game.processTurn({
       x: 1, y: 2,
     })).toEqual(makePayload({
-      is_p1_turn: false,
+      is_p1_turn: true,
       isValidNode: true,
       isBeginNode: false,
       nodes: [{ x: 0, y: 3 }, { x: 1, y: 2 }],
@@ -256,7 +256,7 @@ describe("test the game", () => {
     expect(game.processTurn({
       x: 1, y: 0,
     })).toEqual(makePayload({
-      is_p1_turn: true,
+      is_p1_turn: false,
       isValidNode: true,
       isBeginNode: false,
       nodes: [{ x: 1, y: 2 }, { x: 1, y: 0 }],
@@ -274,7 +274,7 @@ describe("test the game", () => {
     expect(game.processTurn({
       x: 0, y: 1,
     })).toEqual(makePayload({
-      is_p1_turn: false,
+      is_p1_turn: true,
       isValidNode: true,
       isBeginNode: false,
       nodes: [{ x: 1, y: 0 }, { x: 0, y: 1 }],
