@@ -54,7 +54,7 @@ const gameOver = ({ is_p1_turn, nodes }) => {
     msg: "GAME_OVER",
     body: {
       heading: "Game Over",
-      message: `${is_p1_turn ? "Player 1" : "Player 2"} Wins!`,
+      message: `${is_p1_turn ? "Player 1" : "Player 2"} wins!`,
       newLine: {
         start: nodes[0],
         end: nodes[1],
