@@ -38,6 +38,6 @@ Here are a few conclusions I made, based on my reflections upon the logic of the
 * I used booleans where I could to keep track of whether the turn belongs to Player 1 or Player 2. I tried to have the variable names reflect the data type it describes. 
 * I defined a `describePath` method that would calculate each and every node between a start and end point [inclusive]. I question whether this was a necessary strategy on my part, though it was the only way to ensure that segments do not cross each other, at least in my head.
 * I also questioned whether it was efficient to calculate, at any given moment in the game, all valid start paths (which should only be the available nodes between the start and end points). I did this in the `hasAdjacentValidNodes` method.
-* My testing likely fails to capture more obscure edge cases; for instance, I could not successfully implement logic that would prohbit a segment that intersects another segment diagnonally. My logic does prevent all intersectins between already-traversed nodes.
+* My testing likely fails to capture more obscure edge cases; for instance, I could not successfully implement logic that would prohbit a segment that intersects another segment diagnonally. My logic does prevent all intersections between already-traversed nodes.
 
 
