@@ -37,6 +37,8 @@ class Game {
   hasValidAdjacentNodes(point) {
     const _point = Point.objectifyFromString(point);
     let adjs = [];
+
+    // for a given point, look around it and determine whether there are nodes adjacent to it that are valid to traverse
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (i === 0 && j === 0) { continue; }
